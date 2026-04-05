@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO & Meta Tags -->
+    <title>dithdyt</title>
+    <!-- Ini buat ganti icon di tab browser -->
+    <link rel="icon" type="image/png" href="./assets/logo.png">
+    <meta name="description" content="Portfolio of Aditya Ataby, a Software Developer specializing in cross-platform mobile solutions and scalable web architectures.">
+    <meta name="author" content="Aditya Ataby Hidayat">
+    <meta property="og:title" content="Aditya Ataby - Software Developer">
+    <meta property="og:description" content="Building high-quality, testable code and optimizing system performance.">
+    <meta property="og:type" content="website">
+
+    <!-- Google Fonts: Outfit (Estetik, Kurus, Geometris) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Custom Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        // Mengatur Outfit sebagai font utama untuk kesan estetik & tipis
+                        sans: ['"Outfit"', 'sans-serif'],
+                    },
+                    colors: {
+                        y2k: {
+                            black: '#030303',
+                            dark: '#0a0a0a',
+                            silver: '#e5e5e5',
+                            dim: '#8a8a8a', /* Sedikit diterangkan agar lebih estetik di font tipis */
+                            neon: '#ffffff', /* Pure White */
+                            chrome: '#d1d5db'
+                        }
+                    },
+                    backgroundImage: {
+                        'grid-pattern': 'linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom CSS for Minimalist Elements -->
+    <style>
+        body {
+            background-color: #030303;
+            color: #e5e5e5;
+            overflow-x: hidden;
+            /* Membuat font terlihat lebih rapat dan rapi */
+            letter-spacing: -0.02em; 
+            font-weight: 200; /* Default font sangat tipis */
+        }
+
+        /* Minimal Grid Background */
+        .bg-grid {
+            background-size: 60px 60px;
+            background-position: center center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -2;
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 90%);
+        }
+
+        /* Subtle Noise / Scanlines Overlay (Opacity diturunkan agar lebih clean) */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1));
+            background-size: 100% 4px;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.15; /* Lebih estetik dan tidak mengganggu teks tipis */
+        }
+
+        /* Section Transitions */
+        .section {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(15px);
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .section.fade-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Minimalist Scrollbar */
+        ::-webkit-scrollbar {
+            width: 3px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #030303;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333333;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ffffff;
+        }
+
+        /* Nav Link Bullet Indicator */
+        .nav-link {
+            position: relative;
+            transition: color 0.4s ease;
+            text-align: left;
+            width: 100%;
+        }
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            left: -1.25rem;
+            top: 50%;
+            transform: translateY(-50%) scale(0);
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background-color: transparent;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .nav-link.active {
+            color: #ffffff;
+            font-weight: 300;
+        }
+        .nav-link.active::before {
+            background-color: #ffffff;
+            box-shadow: 0 0 12px rgba(255,255,255,0.8);
+            transform: translateY(-50%) scale(1.2);
+        }
+        .nav-link:hover:not(.active) {
+            color: #d1d5db;
+        }
+        .nav-link:hover:not(.active)::before {
+            background-color: #555555;
+            transform: translateY(-50%) scale(1);
+        }
+
+        /* Minimalist Raw Glow Links */
+        .glow-link {
+            position: relative;
+            transition: all 0.4s ease;
+        }
+        .glow-link::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 0%;
+            height: 1px;
+            background-color: #ffffff;
+            transition: width 0.4s ease;
+            box-shadow: 0 0 10px rgba(255,255,255,0.3);
+        }
+        .glow-link:hover {
+            color: #ffffff;
+        }
+        .glow-link:hover::after {
+            width: 100%;
+        }
+
+        /* Pill Glassmorphism Button - Diperhalus */
+        .btn-pill {
+            position: relative;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0.875rem 2.5rem;
+            border-radius: 9999px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.01);
+            backdrop-filter: blur(10px);
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-size: 0.75rem;
+            font-weight: 300;
+            transition: all 0.5s ease;
+            overflow: hidden;
+        }
+        .btn-pill::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.08) 0%, transparent 80%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .btn-pill:hover {
+            border-color: rgba(255,255,255,0.8);
+            background: rgba(255, 255, 255, 0.03);
+            transform: translateY(-2px);
+            color: #fff;
+        }
+        .btn-pill:hover::before {
+            opacity: 1;
+        }
+
+        /* Abstract Box/Wireframe Element */
+        .wireframe-box {
+            border: 1px solid rgba(255,255,255,0.06);
+            background: rgba(255,255,255,0.01);
+            backdrop-filter: blur(12px);
+        }
+
+        /* Preloader */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #030303;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+        .scramble-text {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.25rem;
+            color: #ffffff;
+            letter-spacing: 0.3rem;
+            font-weight: 200;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-y2k-neon selection:text-black">
+
+    <!-- Preloader Overlay -->
+    <div id="preloader">
+        <div class="scramble-text" id="scramble-text"></div>
+    </div>
+
+    <!-- Ambient / Minimal Backgrounds -->
+    <div class="bg-grid bg-grid-pattern"></div>
+    <div class="scanlines"></div>
+
+    <!-- Main Geometry -->
+    <div class="flex flex-col md:flex-row min-h-screen w-full max-w-7xl mx-auto px-6 sm:px-12 py-12 lg:py-24 relative z-10">
+        
+        <!-- Left: Fixed Sidebar Navigation -->
+        <header class="md:w-1/4 md:fixed md:top-24 flex flex-col justify-between mb-16 md:mb-0 h-[auto] md:h-[calc(100vh-12rem)]">
+            <div>
+                <h1 class="text-3xl lg:text-4xl font-light tracking-tight text-white mb-2">Aditya Ataby</h1>
+                <p class="text-y2k-dim text-[10px] tracking-[0.25em] uppercase font-light">Software Developer</p>
+            </div>
+
+            <nav class="mt-12 md:mt-24">
+                <ul class="flex flex-col gap-6 text-y2k-dim text-xs tracking-[0.15em] font-extralight w-fit ml-5">
+                    <li><button onclick="navigateTo('home')" id="nav-home" class="nav-link active uppercase focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/50 rounded-sm">Home</button></li>
+                    <li><button onclick="navigateTo('profile')" id="nav-profile" class="nav-link uppercase focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/50 rounded-sm">Profile</button></li>
+                    <li><button onclick="navigateTo('projects')" id="nav-projects" class="nav-link uppercase focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/50 rounded-sm">Projects</button></li>
+                    <li><button onclick="navigateTo('contact')" id="nav-contact" class="nav-link uppercase focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/50 rounded-sm">Contact</button></li>
+                </ul>
+            </nav>
+            
+            <!-- Deco element -->
+            <div class="mt-16 md:mt-auto hidden md:block text-[9px] text-y2k-dim/40 tracking-[0.3em] uppercase font-light">
+                dithdyt // 2026<br>
+                <span class="inline-block mt-3 w-10 h-[1px] bg-y2k-dim/20"></span>
+            </div>
+        </header>
+
+        <!-- Right: Dynamic Content Area -->
+        <main class="md:w-[65%] md:ml-auto w-full pb-16">
+            
+            <!-- SECTION: HOME -->
+            <section id="home" class="section active fade-in">
+                <div class="wireframe-box p-8 lg:p-14 relative overflow-hidden rounded-sm">
+                    <!-- Accent corner -->
+                    <div class="absolute top-0 right-0 w-6 h-6 border-t border-r border-y2k-neon/30"></div>
+                    <div class="absolute bottom-0 left-0 w-6 h-6 border-b border-l border-y2k-neon/30"></div>
+
+                    <div class="inline-flex items-center gap-4 mb-12">
+                        <span class="w-1.5 h-1.5 rounded-full bg-y2k-neon animate-pulse"></span>
+                        <span class="text-y2k-neon text-[9px] tracking-[0.25em] uppercase font-light">Status: Available</span>
+                    </div>
+
+                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extralight text-white mb-8 leading-[1.15] tracking-tight">
+                        Engineering scalable <br>
+                        <span class="text-y2k-dim italic font-light">mobile & web solutions</span>
+                    </h2>
+
+                    <p class="text-y2k-dim max-w-xl text-sm sm:text-base leading-relaxed font-extralight mt-8">
+                        A Software Developer with a technical background in mobile and web application development. Proficient in the full software development life cycle, with expertise in building cross-platform mobile solutions using Flutter and scalable web architectures with React and Laravel. Committed to engineering high-quality, testable code and optimizing system performance to deliver seamless user experiences.
+                    </p>
+                </div>
+            </section>
+
+            <!-- SECTION: PROFILE -->
+            <section id="profile" class="section">
+                <div class="space-y-20">
+                    
+                    <!-- Experience -->
+                    <div>
+                        <h3 class="text-[10px] text-y2k-neon tracking-[0.25em] uppercase mb-10 flex items-center gap-4 font-light">
+                            <span class="w-8 h-[1px] bg-y2k-neon/40"></span> Experience
+                        </h3>
+                        <div class="flex flex-col border-l border-white/5 pl-6 sm:pl-8 space-y-12">
+                            
+                            <!-- Elnusa Petrofin -->
+                            <div class="relative group">
+                                <div class="absolute -left-[29px] sm:-left-[37px] top-1.5 w-1.5 h-1.5 rounded-full bg-y2k-neon shadow-[0_0_10px_rgba(255,255,255,0.8)]"></div>
+                                <p class="text-[9px] text-y2k-dim tracking-[0.2em] mb-3 uppercase">Aug 2022 — Jan 2023</p>
+                                <h4 class="text-y2k-silver text-xl font-light tracking-wide">Backend Developer & Tech Writer <br><span class="text-y2k-dim font-extralight text-lg">@ PT Elnusa Petrofin, Jakarta</span></h4>
+                                <ul class="text-y2k-dim text-sm mt-4 font-extralight leading-relaxed max-w-lg space-y-2 list-disc pl-4">
+                                    <li>Spearheaded implementation of comprehensive unit testing for DIMS component, achieving 100% code coverage on critical modules.</li>
+                                    <li>Systematically resolved high-priority software defects, resulting in a 25% reduction in customer support escalations.</li>
+                                    <li>Authored detailed technical dossiers and API documentation, streamlining the onboarding process.</li>
+                                </ul>
+                            </div>
+
+                            <!-- Illiyin Studio -->
+                            <div class="relative group">
+                                <div class="absolute -left-[29px] sm:-left-[37px] top-1.5 w-1.5 h-1.5 rounded-full bg-white/20"></div>
+                                <p class="text-[9px] text-y2k-dim tracking-[0.2em] mb-3 uppercase">Jan 2022 — May 2022</p>
+                                <h4 class="text-y2k-silver text-xl font-light tracking-wide">Mobile App Developer <br><span class="text-y2k-dim font-extralight text-lg">@ PT Illiyin Studio, Malang</span></h4>
+                                <ul class="text-y2k-dim text-sm mt-4 font-extralight leading-relaxed max-w-lg space-y-2 list-disc pl-4">
+                                    <li>Architected mobile interfaces using Flutter and Firebase, utilizing advanced state management.</li>
+                                    <li>Developed a robust suite of widget and unit tests, achieving a 23% reduction in regression bugs.</li>
+                                    <li>Synchronized technical communication between UI/UX designers and backend engineers for seamless API integration.</li>
+                                </ul>
+                            </div>
+
+                            <!-- STMIK Kharisma -->
+                            <div class="relative group">
+                                <div class="absolute -left-[29px] sm:-left-[37px] top-1.5 w-1.5 h-1.5 rounded-full bg-white/20"></div>
+                                <p class="text-[9px] text-y2k-dim tracking-[0.2em] mb-3 uppercase">Oct 2021 — Nov 2021</p>
+                                <h4 class="text-y2k-silver text-xl font-light tracking-wide">Kotlin Development Trainer <br><span class="text-y2k-dim font-extralight text-lg">@ STMIK Kharisma, Karawang</span></h4>
+                                <p class="text-y2k-dim text-sm mt-3 font-extralight max-w-lg leading-relaxed">Provided hands-on technical guidance in building real-world Android applications. Conducted regular code reviews and technical evaluations.</p>
+                            </div>
+
+                            <!-- SMK Bhinneka -->
+                            <div class="relative group">
+                                <div class="absolute -left-[29px] sm:-left-[37px] top-1.5 w-1.5 h-1.5 rounded-full bg-white/20"></div>
+                                <p class="text-[9px] text-y2k-dim tracking-[0.2em] mb-3 uppercase">Sep 2021 — Oct 2021</p>
+                                <h4 class="text-y2k-silver text-xl font-light tracking-wide">Web Development Instructor <br><span class="text-y2k-dim font-extralight text-lg">@ SMK Bhinneka, Karawang</span></h4>
+                                <p class="text-y2k-dim text-sm mt-3 font-extralight max-w-lg leading-relaxed">Spearheaded the end-to-end development of the school’s official website as a primary instructional project. Delivered training on HTML5, CSS3, JavaScript (ES6), and Bootstrap.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Education -->
+                    <div>
+                        <h3 class="text-[10px] text-y2k-neon tracking-[0.25em] uppercase mb-10 flex items-center gap-4 font-light">
+                            <span class="w-8 h-[1px] bg-y2k-neon/40"></span> Education
+                        </h3>
+                        <div class="flex flex-col border-l border-white/5 pl-6 sm:pl-8 space-y-12">
+                            <div class="relative">
+                                <div class="absolute -left-[29px] sm:-left-[37px] top-1.5 w-1.5 h-1.5 rounded-full bg-white/20"></div>
+                                <p class="text-[9px] text-y2k-dim tracking-[0.2em] mb-3 uppercase">2023 — Present</p>
+                                <h4 class="text-y2k-silver text-xl font-light tracking-wide">Telkom University Jakarta</h4>
+                                <p class="text-y2k-dim text-sm mt-2 font-extralight max-w-lg leading-relaxed">Bachelor of Science in Computer Science.</p>
+                            </div>
+                            <div class="relative">
+                                <div class="absolute -left-[29px] sm:-left-[37px] top-1.5 w-1.5 h-1.5 rounded-full bg-white/20"></div>
+                                <p class="text-[9px] text-y2k-dim tracking-[0.2em] mb-3 uppercase">2020 — 2023</p>
+                                <h4 class="text-y2k-silver text-xl font-light tracking-wide">IDN Boarding Vocational High School</h4>
+                                <p class="text-y2k-dim text-sm mt-2 font-extralight max-w-lg leading-relaxed">Computer Science.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Skills -->
+                    <div>
+                        <h3 class="text-[10px] text-y2k-neon tracking-[0.25em] uppercase mb-10 flex items-center gap-4 font-light">
+                            <span class="w-8 h-[1px] bg-y2k-neon/40"></span> Technical Arsenal
+                        </h3>
+                        <div class="flex flex-wrap gap-4">
+                            <!-- Languages -->
+                            <span class="px-5 py-2.5 text-[10px] uppercase tracking-[0.15em] border border-white/10 text-y2k-silver hover:border-white/50 hover:text-white transition-all duration-300 font-light rounded-sm cursor-default">Dart / Swift / Kotlin</span>
+                            <span class="px-5 py-2.5 text-[10px] uppercase tracking-[0.15em] border border-white/10 text-y2k-silver hover:border-white/50 hover:text-white transition-all duration-300 font-light rounded-sm cursor-default">TypeScript / JS (ES6+)</span>
+                            <span class="px-5 py-2.5 text-[10px] uppercase tracking-[0.15em] border border-white/10 text-y2k-silver hover:border-white/50 hover:text-white transition-all duration-300 font-light rounded-sm cursor-default">PHP / SQL / HTML/CSS</span>
+                            <!-- Frameworks -->
+                            <span class="px-5 py-2.5 text-[10px] uppercase tracking-[0.15em] border border-white/10 text-y2k-neon hover:border-white/50 hover:text-white transition-all duration-300 font-light rounded-sm cursor-default">Flutter & SwiftUI</span>
+                            <span class="px-5 py-2.5 text-[10px] uppercase tracking-[0.15em] border border-white/10 text-y2k-neon hover:border-white/50 hover:text-white transition-all duration-300 font-light rounded-sm cursor-default">React.js / Vue.js</span>
+                            <span class="px-5 py-2.5 text-[10px] uppercase tracking-[0.15em] border border-white/10 text-y2k-neon hover:border-white/50 hover:text-white transition-all duration-300 font-light rounded-sm cursor-default">Laravel / Nest.js / GetX</span>
+                            <!-- Tools & DB -->
+                            <span class="px-5 py-2.5 text-[10px] uppercase tracking-[0.15em] border border-white/10 text-y2k-silver hover:border-white/50 hover:text-white transition-all duration-300 font-light rounded-sm cursor-default">Firebase / Docker</span>
+                            <span class="px-5 py-2.5 text-[10px] uppercase tracking-[0.15em] border border-white/10 text-y2k-silver hover:border-white/50 hover:text-white transition-all duration-300 font-light rounded-sm cursor-default">PostgreSQL / MySQL</span>
+                            <!-- Expertise -->
+                            <span class="px-5 py-2.5 text-[10px] uppercase tracking-[0.15em] border border-white/10 text-white hover:border-white/50 transition-all duration-300 font-light rounded-sm cursor-default bg-white/5">Clean Architecture</span>
+                            <span class="px-5 py-2.5 text-[10px] uppercase tracking-[0.15em] border border-white/10 text-white hover:border-white/50 transition-all duration-300 font-light rounded-sm cursor-default bg-white/5">Unit Testing (TDD)</span>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- SECTION: PROJECTS -->
+            <section id="projects" class="section">
+                <div class="mb-16">
+                    <p class="text-y2k-neon text-[9px] tracking-[0.3em] uppercase mb-5 font-light">Directory / Selected Works</p>
+                    <h2 class="text-4xl sm:text-5xl text-white font-extralight tracking-tight">Active Deployments</h2>
+                </div>
+                
+                <div class="flex flex-col border-t border-white/10">
+                    
+                    <!-- MuslimHabit Tracker -->
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between py-8 lg:py-10 border-b border-white/5 group hover:bg-white/[0.01] transition-all duration-500 relative px-2 sm:px-4">
+                        <div class="mb-5 sm:mb-0">
+                            <h3 class="text-2xl text-y2k-silver group-hover:text-white transition-colors duration-300 font-light tracking-wide">Mubit - Modern Islamic Habit Tracker</h3>
+                            <p class="text-xs text-y2k-neon tracking-widest uppercase mt-2 font-extralight">Flutter 3.41 • Riverpod • ISAR NoSQL • Material 3</p>
+                            <ul class="text-sm text-y2k-dim mt-4 max-w-lg font-extralight leading-relaxed space-y-2 list-none">
+                                <li>— Integrated Adhan Algorithm Engine for offline-first prayer time calculations with global timezone support and real-time countdowns.</li>
+                                <li>— Implemented Isar NoSQL for high-performance local data persistence and Riverpod (AsyncNotifier) for reactive state synchronization.</li>
+                                <li>— Engineered a dynamic fasting forecast algorithm and visualized 20-day worship consistency using interactive Bar Charts (fl_chart).</li>
+                                <li>— Rebranded the UI with a premium "Teal-Mint" aesthetic using Material 3 design principles and custom-branded assets.</li>
+                            </ul>
+                        </div>
+                        <div class="mt-4 sm:mt-0">
+                            <a href="https://github.com/dithdyt/mubit-app" target="_blank" rel="noopener noreferrer" class="text-[10px] text-y2k-neon glow-link uppercase tracking-[0.2em] flex items-center gap-2 font-light">
+                                Source Code
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Stocky Pos -->
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between py-8 lg:py-10 border-b border-white/5 group hover:bg-white/[0.01] transition-all duration-500 relative px-2 sm:px-4">
+                        <div class="mb-5 sm:mb-0">
+                            <h3 class="text-2xl text-y2k-silver group-hover:text-white transition-colors duration-300 font-light tracking-wide">Stocky - Intelligent Inventory & POS System</h3>
+                            <p class="text-xs text-y2k-neon tracking-widest uppercase mt-2 font-extralight">Flutter • Riverpod • ISAR DB • Clean Architecture/p>
+                            <ul class="text-sm text-y2k-dim mt-4 max-w-lg font-extralight leading-relaxed space-y-2 list-none">
+                                <li>— Developed a robust Point of Sale (POS) system using Feature-Driven Architecture to ensure high maintainability and modularity.</li>
+                                <li>— Architected an intelligent inventory engine with Atomic Database Transactions to prevent stock discrepancies during checkout.</li>
+                                <li>— Built a reactive shopping cart system with real-time stock constraint validation and localized currency formatting.</li>
+                                <li>— Optimized the application for high-end Android hardware, ensuring smooth UI rendering and fast NoSQL query execution.</li>
+                            </ul>
+                        </div>
+                        <div class="mt-4 sm:mt-0">
+                            <a href="https://github.com/dithdyt/stocky-pos" target="_blank" rel="noopener noreferrer" class="text-[10px] text-y2k-neon glow-link uppercase tracking-[0.2em] flex items-center gap-2 font-light">
+                                Source Code
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Placeholder/Generic Github Link -->
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between py-8 lg:py-10 border-b border-white/5 group hover:bg-white/[0.01] transition-all duration-500 relative px-2 sm:px-4">
+                        <div class="mb-5 sm:mb-0">
+                            <h3 class="text-2xl text-y2k-silver group-hover:text-white transition-colors duration-300 font-light tracking-wide">Open Source Contributions</h3>
+                            <p class="text-sm text-y2k-dim mt-3 max-w-md font-extralight leading-relaxed">Various explorations in scalable web architectures, cross-platform mobile apps, and UI/UX prototyping implementations.</p>
+                        </div>
+                        <div class="mt-4 sm:mt-0">
+                            <a href="https://github.com/dithdyt" target="_blank" rel="noopener noreferrer" class="text-[10px] text-y2k-neon glow-link uppercase tracking-[0.2em] flex items-center gap-2 font-light">
+                                View GitHub
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- SECTION: CONTACT -->
+            <section id="contact" class="section">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-8 h-full min-h-[50vh]">
+                    
+                    <div class="lg:col-span-8 flex flex-col justify-center">
+                        <h2 class="text-[10px] text-y2k-neon tracking-[0.25em] uppercase mb-14 flex items-center gap-4 font-light">
+                            <span class="w-12 h-[1px] bg-y2k-neon/40"></span> Open Transmission
+                        </h2>
+                        
+                        <div class="flex flex-col space-y-10 pl-2 sm:pl-6 border-l border-white/5">
+                            <a href="https://github.com/dithdyt" target="_blank" rel="noopener noreferrer" class="text-4xl sm:text-5xl lg:text-6xl text-y2k-dim hover:text-white transition-all duration-500 font-extralight hover:translate-x-4 inline-block origin-left w-fit tracking-tight">
+                                GitHub<span class="text-y2k-neon text-3xl lg:text-5xl font-light">.dev</span>
+                            </a>
+                            <a href="https://www.linkedin.com/in/dithdyt/" target="_blank" rel="noopener noreferrer" class="text-4xl sm:text-5xl lg:text-6xl text-y2k-dim hover:text-white transition-all duration-500 font-extralight hover:translate-x-4 inline-block origin-left w-fit tracking-tight">
+                                Linkedin<span class="text-y2k-neon text-3xl lg:text-5xl font-light">.id</span>
+                            </a>
+                            <a href="mailto:aditataby@gmail.com" class="text-4xl sm:text-5xl lg:text-6xl text-y2k-dim hover:text-white transition-all duration-500 font-extralight hover:translate-x-4 inline-block origin-left w-fit tracking-tight">
+                                Email<span class="text-y2k-neon text-3xl lg:text-5xl font-light">.sys</span>
+                            </a>
+                            <div class="pt-8 mt-8 border-t border-white/5 text-y2k-dim font-extralight text-sm tracking-widest">
+                                BOGOR, WEST JAVA <br>
+                                ID (+62) 816-1767-2311
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="lg:col-span-4 flex flex-col justify-end lg:items-end mt-12 lg:mt-0 pb-4">
+                        <div class="wireframe-box p-8 w-full max-w-sm rounded-sm">
+                            <div class="text-[9px] text-y2k-dim tracking-[0.3em] uppercase mb-5 font-light">Payload File</div>
+                            <p class="text-y2k-silver text-sm mb-10 leading-relaxed font-extralight">
+                                Available for professional software development opportunities. Obtain the complete technical dossier.
+                            </p>
+                            
+                            <!-- TOMBOL DOWNLOAD CV -->
+                            <!-- Pastikan file CV pdf kamu ada di dalam folder 'assets' di proyek ini -->
+                            <a href="./assets/Aditya_Ataby_Hidayat_CV.pdf" download="CV_Aditya_Ataby_Hidayat.pdf" class="btn-pill w-full">
+                                <span class="relative z-10">Download_CV</span>
+                            </a>
+                        </div>
+                    </div>
+                    
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Application Logic -->
+    <script>
+        // State management
+        let isAnimating = false;
+        
+        // Navigation Function
+        function navigateTo(targetId) {
+            if (isAnimating) return;
+            
+            // Validate if already active
+            const currentActiveTrigger = document.querySelector('.nav-link.active');
+            if (currentActiveTrigger && currentActiveTrigger.id === `nav-${targetId}`) {
+                return;
+            }
+
+            isAnimating = true;
+
+            // Memperbaiki UX Mobile: Otomatis scroll ke atas saat pindah menu
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // 1. Update Navigation Menu styling
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            document.getElementById(`nav-${targetId}`).classList.add('active');
+
+            // 2. Handle Section Transition
+            const currentSection = document.querySelector('.section.active');
+            const newSection = document.getElementById(targetId);
+
+            if (currentSection) {
+                // Trigger Fade Out
+                currentSection.classList.remove('fade-in');
+                
+                // Wait for fade out CSS transition (700ms)
+                setTimeout(() => {
+                    currentSection.classList.remove('active');
+                    
+                    // Prepare new section
+                    newSection.classList.add('active');
+                    
+                    // Nested generic delay to ensure browser registers 'display: block' before opacity change
+                    requestAnimationFrame(() => {
+                        requestAnimationFrame(() => {
+                            newSection.classList.add('fade-in');
+                            
+                            // Unlock navigation after fade in finishes
+                            setTimeout(() => {
+                                isAnimating = false;
+                            }, 700);
+                        });
+                    });
+                }, 700);
+            } else {
+                // Fallback (on load, handled physically via HTML classes 'active fade-in')
+                newSection.classList.add('active');
+                setTimeout(() => {
+                    newSection.classList.add('fade-in');
+                    isAnimating = false;
+                }, 50);
+            }
+        }
+
+        // Preloader Logic
+        document.addEventListener("DOMContentLoaded", () => {
+            const targetText = "<dithdyt-portfolio/>";
+            const chars = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890!@#$%^&*()_+=-{}[]<>,.?/";
+            const textEl = document.getElementById("scramble-text");
+            let frame = 0;
+            const queue =[];
+
+            for (let i = 0; i < targetText.length; i++) {
+                queue.push({
+                    from: chars[Math.floor(Math.random() * chars.length)],
+                    to: targetText[i],
+                    start: Math.floor(Math.random() * 90),
+                    end: Math.floor(Math.random() * 30) + 40, // Random duration
+                    char: ''
+                });
+            }
+
+            let animationReq;
+            const update = () => {
+                let output = '';
+                let complete = 0;
+                for (let i = 0; i < queue.length; i++) {
+                    let { from, to, start, end, char } = queue[i];
+                    if (frame >= end) {
+                        complete++;
+                        output += to;
+                    } else if (frame >= start) {
+                        if (!char || Math.random() < 0.28) {
+                            char = chars[Math.floor(Math.random() * chars.length)];
+                            queue[i].char = char;
+                        }
+                        output += char;
+                    } else {
+                        output += from;
+                    }
+                }
+                textEl.innerText = output;
+
+                if (complete === queue.length) {
+                    cancelAnimationFrame(animationReq);
+                    setTimeout(() => {
+                        const preloader = document.getElementById("preloader");
+                        preloader.style.opacity = "0";
+                        setTimeout(() => {
+                            preloader.style.visibility = "hidden";
+                        }, 800);
+                    }, 600);
+                } else {
+                    animationReq = requestAnimationFrame(update);
+                    frame++;
+                }
+            };
+            animationReq = requestAnimationFrame(update);
+        });
+    </script>
+</body>
+</html>
