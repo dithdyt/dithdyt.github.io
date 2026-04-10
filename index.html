@@ -245,47 +245,51 @@
             font-weight: 200;
             text-transform: uppercase;
         }
-        /* Custom Cursor styling */
-        .cursor-dot,
-        .cursor-outline {
-            pointer-events: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            transform: translate(-50%, -50%);
-            border-radius: 50%;
-            z-index: 9999;
-            transition: opacity 0.3s ease, transform 0.3s ease;
+
+        /* Custom Cursor Styles */
+        * {
+            cursor: none !important;
         }
 
         .cursor-dot {
             width: 6px;
             height: 6px;
             background-color: #ffffff;
+            position: fixed;
+            top: 0;
+            left: 0;
+            border-radius: 50%;
+            z-index: 10000;
+            pointer-events: none;
+            transition: transform 0.1s ease-out;
         }
 
         .cursor-outline {
             width: 30px;
             height: 30px;
             border: 1px solid rgba(255, 255, 255, 0.3);
+            position: fixed;
+            top: 0;
+            left: 0;
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+            transition: transform 0.15s ease-out, width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
         }
 
-        /* Hover state for cursor */
-        body.cursor-hover .cursor-dot {
-            transform: translate(-50%, -50%) scale(1.5);
-            background-color: #ffffff;
-        }
-
-        body.cursor-hover .cursor-outline {
-            transform: translate(-50%, -50%) scale(1.8);
+        .cursor-outline.hover {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(255, 255, 255, 0.05);
             border-color: rgba(255, 255, 255, 0.8);
-            background: rgba(255, 255, 255, 0.05);
         }
 
-        /* Hide default cursor on desktop */
-        @media (min-width: 768px) {
+        @media (max-width: 768px) {
+            .cursor-dot, .cursor-outline {
+                display: none;
+            }
             * {
-                cursor: none !important;
+                cursor: auto !important;
             }
         }
     </style>
@@ -293,8 +297,8 @@
 <body class="antialiased selection:bg-y2k-neon selection:text-black">
 
     <!-- Custom Cursor -->
-    <div class="cursor-dot hidden md:block"></div>
-    <div class="cursor-outline hidden md:block"></div>
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-outline" id="cursor-outline"></div>
 
     <!-- Preloader Overlay -->
     <div id="preloader">
@@ -687,57 +691,43 @@
         });
 
         // Custom Cursor Logic
-        document.addEventListener("DOMContentLoaded", () => {
-            const dot = document.querySelector(".cursor-dot");
-            const outline = document.querySelector(".cursor-outline");
-            
-            if (!dot || !outline) return;
+        const dot = document.getElementById("cursor-dot");
+        const outline = document.getElementById("cursor-outline");
+        let mouseX = 0;
+        let mouseY = 0;
+        let cursorX = 0;
+        let cursorY = 0;
+        let outlineX = 0;
+        let outlineY = 0;
 
-            let mouseX = 0;
-            let mouseY = 0;
-            let dotX = 0;
-            let dotY = 0;
-            let outlineX = 0;
-            let outlineY = 0;
+        window.addEventListener("mousemove", (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
 
-            document.addEventListener("mousemove", (e) => {
-                mouseX = e.clientX;
-                mouseY = e.clientY;
+        function animateCursor() {
+            // Smooth tracking for dot
+            cursorX += (mouseX - cursorX) * 0.2;
+            cursorY += (mouseY - cursorY) * 0.2;
+            dot.style.transform = `translate(${cursorX - 3}px, ${cursorY - 3}px)`;
+
+            // Lagging tracking for outline
+            outlineX += (mouseX - outlineX) * 0.1;
+            outlineY += (mouseY - outlineY) * 0.1;
+            outline.style.transform = `translate(${outlineX - 15}px, ${outlineY - 15}px)`;
+
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // Hover effects
+        const interactiveElements = document.querySelectorAll('button, a, .glow-link');
+        interactiveElements.forEach(el => {
+            el.addEventListener("mouseenter", () => {
+                outline.classList.add("hover");
             });
-
-            // Smooth trailing effect
-            const animateCursor = () => {
-                // Dot follows instantly or with very slight delay
-                dotX += (mouseX - dotX) * 0.2;
-                dotY += (mouseY - dotY) * 0.2;
-                
-                // Outline follows with more delay for "elegant" feel
-                outlineX += (mouseX - outlineX) * 0.1;
-                outlineY += (mouseY - outlineY) * 0.1;
-
-                dot.style.transform = `translate(${dotX}px, ${dotY}px) translate(-50%, -50%)`;
-                outline.style.transform = `translate(${outlineX}px, ${outlineY}px) translate(-50%, -50%)`;
-
-                requestAnimationFrame(animateCursor);
-            };
-            animateCursor();
-
-            // Hover effects for interactive elements
-            const interactiveElements = document.querySelectorAll('button, a, .glow-link, .btn-pill');
-            
-            interactiveElements.forEach(el => {
-                el.addEventListener("mouseenter", () => document.body.classList.add("cursor-hover"));
-                el.addEventListener("mouseleave", () => document.body.classList.remove("cursor-hover"));
-            });
-
-            // Handle visibility when leaving window
-            document.addEventListener("mouseleave", () => {
-                dot.style.opacity = "0";
-                outline.style.opacity = "0";
-            });
-            document.addEventListener("mouseenter", () => {
-                dot.style.opacity = "1";
-                outline.style.opacity = "1";
+            el.addEventListener("mouseleave", () => {
+                outline.classList.remove("hover");
             });
         });
     </script>
