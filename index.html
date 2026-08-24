@@ -8,9 +8,9 @@
     <title>dithdyt</title>
     <!-- Ini buat ganti icon di tab browser -->
     <link rel="icon" type="image/png" href="./assets/logo.png">
-    <meta name="description" content="Portfolio of Aditya Ataby, a Software Developer specializing in cross-platform mobile solutions and scalable web architectures.">
-    <meta name="author" content="Aditya Ataby Hidayat">
-    <meta property="og:title" content="Aditya Ataby - Software Developer">
+    <meta name="description" content="Portfolio of Ditya Ataby, a Software Developer specializing in cross-platform mobile solutions and scalable web architectures.">
+    <meta name="author" content="Ditya Ataby Hidayat">
+    <meta property="og:title" content="Ditya Ataby - Software Developer">
     <meta property="og:description" content="Building high-quality, testable code and optimizing system performance.">
     <meta property="og:type" content="website">
 
@@ -58,6 +58,87 @@
             /* Membuat font terlihat lebih rapat dan rapi */
             letter-spacing: -0.02em; 
             font-weight: 200; /* Default font sangat tipis */
+        }
+
+        /* Ambient Twinkling Starfield (pure CSS, GPU-composited only) */
+        .bg-stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -3;
+            background-repeat: repeat;
+            pointer-events: none;
+        }
+        .bg-stars-1 {
+            background-image:
+                radial-gradient(1px 1px at 10% 20%, #fff, transparent),
+                radial-gradient(1px 1px at 35% 65%, #fff, transparent),
+                radial-gradient(1px 1px at 55% 15%, #fff, transparent),
+                radial-gradient(1px 1px at 70% 80%, #fff, transparent),
+                radial-gradient(1px 1px at 85% 40%, #fff, transparent),
+                radial-gradient(1px 1px at 25% 90%, #fff, transparent),
+                radial-gradient(1px 1px at 95% 10%, #fff, transparent),
+                radial-gradient(1px 1px at 45% 45%, #fff, transparent);
+            background-size: 200px 200px;
+            animation: star-twinkle-1 4s ease-in-out infinite;
+        }
+        .bg-stars-2 {
+            background-image:
+                radial-gradient(1.5px 1.5px at 15% 30%, rgba(255,255,255,0.9), transparent),
+                radial-gradient(1.5px 1.5px at 60% 70%, rgba(255,255,255,0.8), transparent),
+                radial-gradient(1.5px 1.5px at 80% 20%, rgba(255,255,255,0.85), transparent),
+                radial-gradient(1.5px 1.5px at 35% 85%, rgba(255,255,255,0.7), transparent),
+                radial-gradient(1.5px 1.5px at 90% 55%, rgba(255,255,255,0.9), transparent);
+            background-size: 320px 320px;
+            animation: star-twinkle-2 6s ease-in-out infinite, star-drift 100s linear infinite;
+            will-change: transform;
+        }
+        @keyframes star-twinkle-1 {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.9; }
+        }
+        @keyframes star-twinkle-2 {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.7; }
+        }
+        @keyframes star-drift {
+            from { transform: translate3d(0, 0, 0); }
+            to { transform: translate3d(-320px, -320px, 0); }
+        }
+
+        /* Occasional Shooting Star (long, staggered loop so it stays rare) */
+        .shooting-star {
+            position: fixed;
+            top: -5%;
+            width: 2px;
+            height: 2px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 6px 1px rgba(255,255,255,0.6);
+            z-index: -3;
+            pointer-events: none;
+            opacity: 0;
+        }
+        .shooting-star::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(255,255,255,0.8), transparent);
+            transform: translate(-100%, -50%) rotate(45deg);
+            transform-origin: right center;
+        }
+        .shooting-star.star-1 { left: 15%; animation: shoot 9s linear infinite; animation-delay: 1s; }
+        .shooting-star.star-2 { left: 55%; animation: shoot 13s linear infinite; animation-delay: 6s; }
+        @keyframes shoot {
+            0% { transform: translate(0, 0); opacity: 0; }
+            2% { opacity: 1; }
+            10% { transform: translate(420px, 420px); opacity: 0; }
+            100% { transform: translate(420px, 420px); opacity: 0; }
         }
 
         /* Minimal Grid Background */
@@ -261,7 +342,6 @@
             border-radius: 50%;
             z-index: 10000;
             pointer-events: none;
-            transition: transform 0.1s ease-out;
         }
 
         .cursor-outline {
@@ -274,7 +354,7 @@
             border-radius: 50%;
             z-index: 9999;
             pointer-events: none;
-            transition: transform 0.15s ease-out, width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
+            transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
         }
 
         .cursor-outline.hover {
@@ -284,13 +364,20 @@
             border-color: rgba(255, 255, 255, 0.8);
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 768px), (hover: none) and (pointer: coarse) {
             .cursor-dot, .cursor-outline {
                 display: none;
             }
             * {
                 cursor: auto !important;
             }
+        }
+
+        /* Consistent keyboard focus ring for all interactive elements */
+        a:focus-visible, button:focus-visible {
+            outline: none;
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5);
+            border-radius: 2px;
         }
     </style>
 </head>
@@ -306,6 +393,10 @@
     </div>
 
     <!-- Ambient / Minimal Backgrounds -->
+    <div class="bg-stars bg-stars-1"></div>
+    <div class="bg-stars bg-stars-2"></div>
+    <div class="shooting-star star-1"></div>
+    <div class="shooting-star star-2"></div>
     <div class="bg-grid bg-grid-pattern"></div>
     <div class="scanlines"></div>
 
@@ -315,7 +406,7 @@
         <!-- Left: Fixed Sidebar Navigation -->
         <header class="md:w-1/4 md:fixed md:top-24 flex flex-col justify-between mb-16 md:mb-0 h-[auto] md:h-[calc(100vh-12rem)]">
             <div>
-                <h1 class="text-3xl lg:text-4xl font-light tracking-tight text-white mb-2">Aditya Ataby</h1>
+                <h1 class="text-3xl lg:text-4xl font-light tracking-tight text-white mb-2">Ditya Ataby</h1>
                 <p class="text-y2k-dim text-[10px] tracking-[0.25em] uppercase font-light">Software Developer</p>
             </div>
 
@@ -346,8 +437,8 @@
                     <div class="absolute bottom-0 left-0 w-6 h-6 border-b border-l border-y2k-neon/30"></div>
 
                     <div class="inline-flex items-center gap-4 mb-12">
-                        <span class="w-1.5 h-1.5 rounded-full bg-y2k-neon animate-pulse"></span>
-                        <span class="text-y2k-neon text-[9px] tracking-[0.25em] uppercase font-light">Status: Available</span>
+                        <span class="w-8 h-[1px] bg-y2k-neon/40"></span>
+                        <span class="text-y2k-neon text-[9px] tracking-[0.25em] uppercase font-light">Portfolio / 2026</span>
                     </div>
 
                     <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extralight text-white mb-8 leading-[1.15] tracking-tight">
@@ -358,6 +449,15 @@
                     <p class="text-y2k-dim max-w-xl text-sm sm:text-base leading-relaxed font-extralight mt-8">
                         A Software Developer with a technical background in mobile and web application development. Proficient in the full software development life cycle, with expertise in building cross-platform mobile solutions using Flutter and scalable web architectures with React and Laravel. Committed to engineering high-quality, testable code and optimizing system performance to deliver seamless user experiences.
                     </p>
+
+                    <div class="flex flex-wrap items-center gap-8 mt-12">
+                        <button onclick="navigateTo('projects')" class="btn-pill">
+                            <span class="relative z-10">View Projects</span>
+                        </button>
+                        <button onclick="navigateTo('contact')" class="glow-link text-y2k-dim text-[10px] uppercase tracking-[0.2em] font-light">
+                            Get In Touch
+                        </button>
+                    </div>
                 </div>
             </section>
 
@@ -371,10 +471,22 @@
                             <span class="w-8 h-[1px] bg-y2k-neon/40"></span> Experience
                         </h3>
                         <div class="flex flex-col border-l border-white/5 pl-6 sm:pl-8 space-y-12">
-                            
-                            <!-- Elnusa Petrofin -->
+
+                            <!-- TRAVEWELL -->
                             <div class="relative group">
                                 <div class="absolute -left-[29px] sm:-left-[37px] top-1.5 w-1.5 h-1.5 rounded-full bg-y2k-neon shadow-[0_0_10px_rgba(255,255,255,0.8)]"></div>
+                                <p class="text-[9px] text-y2k-dim tracking-[0.2em] mb-3 uppercase">Jul 2026 — Present</p>
+                                <h4 class="text-y2k-silver text-xl font-light tracking-wide">Software Engineer Intern <br><span class="text-y2k-dim font-extralight text-lg">@ TRAVEWELL – PT Advanced Radio Telecommunications and Networking, Jakarta</span></h4>
+                                <ul class="text-y2k-dim text-sm mt-4 font-extralight leading-relaxed max-w-lg space-y-2 list-disc pl-4">
+                                    <li>Reviewed and tested a technical blueprint for an internal IT ticketing system, surfacing architecture gaps and unresolved edge cases before development kicked off.</li>
+                                    <li>Collaborated with a project partner to translate raw technical requirements into a structured document, covering system architecture, ticket lifecycle rules, and feature specifications.</li>
+                                    <li>Prepared and delivered stakeholder walkthroughs to align on open requirements and unblock key technical decisions ahead of implementation.</li>
+                                </ul>
+                            </div>
+
+                            <!-- Elnusa Petrofin -->
+                            <div class="relative group">
+                                <div class="absolute -left-[29px] sm:-left-[37px] top-1.5 w-1.5 h-1.5 rounded-full bg-white/20"></div>
                                 <p class="text-[9px] text-y2k-dim tracking-[0.2em] mb-3 uppercase">Aug 2022 — Jan 2023</p>
                                 <h4 class="text-y2k-silver text-xl font-light tracking-wide">Backend Developer & Tech Writer <br><span class="text-y2k-dim font-extralight text-lg">@ PT Elnusa Petrofin, Jakarta</span></h4>
                                 <ul class="text-y2k-dim text-sm mt-4 font-extralight leading-relaxed max-w-lg space-y-2 list-disc pl-4">
@@ -493,7 +605,7 @@
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between py-8 lg:py-10 border-b border-white/5 group hover:bg-white/[0.01] transition-all duration-500 relative px-2 sm:px-4">
                         <div class="mb-5 sm:mb-0">
                             <h3 class="text-2xl text-y2k-silver group-hover:text-white transition-colors duration-300 font-light tracking-wide">Stocky - Intelligent Inventory & POS System</h3>
-                            <p class="text-xs text-y2k-neon tracking-widest uppercase mt-2 font-extralight">Flutter • Riverpod • ISAR DB • Clean Architecture/p>
+                            <p class="text-xs text-y2k-neon tracking-widest uppercase mt-2 font-extralight">Flutter • Riverpod • ISAR DB • Clean Architecture</p>
                             <ul class="text-sm text-y2k-dim mt-4 max-w-lg font-extralight leading-relaxed space-y-2 list-none">
                                 <li>— Developed a robust Point of Sale (POS) system using Feature-Driven Architecture to ensure high maintainability and modularity.</li>
                                 <li>— Architected an intelligent inventory engine with Atomic Database Transactions to prevent stock discrepancies during checkout.</li>
@@ -551,7 +663,9 @@
                     </div>
                     
                     <div class="lg:col-span-4 flex flex-col justify-end lg:items-end mt-12 lg:mt-0 pb-4">
-                        <div class="wireframe-box p-8 w-full max-w-sm rounded-sm">
+                        <div class="wireframe-box p-8 w-full max-w-sm rounded-sm relative overflow-hidden">
+                            <div class="absolute top-0 right-0 w-6 h-6 border-t border-r border-y2k-neon/30"></div>
+                            <div class="absolute bottom-0 left-0 w-6 h-6 border-b border-l border-y2k-neon/30"></div>
                             <div class="text-[9px] text-y2k-dim tracking-[0.3em] uppercase mb-5 font-light">Payload File</div>
                             <p class="text-y2k-silver text-sm mb-10 leading-relaxed font-extralight">
                                 Available for professional software development opportunities. Obtain the complete technical dossier.
@@ -699,17 +813,22 @@
         let cursorY = 0;
         let outlineX = 0;
         let outlineY = 0;
+        let isPressed = false;
+        let dotScale = 1;
 
         window.addEventListener("mousemove", (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
         });
+        window.addEventListener("mousedown", () => { isPressed = true; });
+        window.addEventListener("mouseup", () => { isPressed = false; });
 
         function animateCursor() {
-            // Smooth tracking for dot
+            // Smooth tracking for dot (with a subtle press-down feedback)
             cursorX += (mouseX - cursorX) * 0.2;
             cursorY += (mouseY - cursorY) * 0.2;
-            dot.style.transform = `translate(${cursorX - 3}px, ${cursorY - 3}px)`;
+            dotScale += ((isPressed ? 0.5 : 1) - dotScale) * 0.3;
+            dot.style.transform = `translate(${cursorX - 3}px, ${cursorY - 3}px) scale(${dotScale})`;
 
             // Lagging tracking for outline
             outlineX += (mouseX - outlineX) * 0.1;
