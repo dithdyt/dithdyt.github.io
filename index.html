@@ -674,7 +674,7 @@
                             <!-- TOMBOL DOWNLOAD CV -->
                             <!-- Pastikan file CV pdf kamu ada di dalam folder 'assets' di proyek ini -->
                             <a href="./assets/Resume_Aditya Ataby Hidayat_Software Developer.pdf" download="CV_Aditya_Ataby_Hidayat.pdf" class="btn-pill w-full">
-                                <span class="relative z-10">Download_CV</span>
+                                <span class="relative z-10">Download CV</span>
                             </a>
                         </div>
                     </div>
@@ -757,14 +757,18 @@
             const queue =[];
 
             for (let i = 0; i < targetText.length; i++) {
+                const end = Math.floor(Math.random() * 30) + 40; // Resolves between frame 40-69
+                const scrambleDuration = Math.floor(Math.random() * 20) + 20; // Always 20-39 frames of visible scrambling
                 queue.push({
                     from: chars[Math.floor(Math.random() * chars.length)],
                     to: targetText[i],
-                    start: Math.floor(Math.random() * 90),
-                    end: Math.floor(Math.random() * 30) + 40, // Random duration
+                    start: Math.max(0, end - scrambleDuration),
+                    end,
                     char: ''
                 });
             }
+
+            const maxEnd = Math.max(...queue.map(q => q.end));
 
             let animationReq;
             const update = () => {
@@ -787,7 +791,12 @@
                 }
                 textEl.innerText = output;
 
+                // Blur eases out as characters resolve, so the text "snaps" into focus
+                const progress = Math.min(frame / maxEnd, 1);
+                textEl.style.filter = `blur(${(6 * Math.pow(1 - progress, 2)).toFixed(2)}px)`;
+
                 if (complete === queue.length) {
+                    textEl.style.filter = 'blur(0px)';
                     cancelAnimationFrame(animationReq);
                     setTimeout(() => {
                         const preloader = document.getElementById("preloader");
