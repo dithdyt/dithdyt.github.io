@@ -73,39 +73,44 @@
         }
         .bg-stars-1 {
             background-image:
-                radial-gradient(1px 1px at 10% 20%, #fff, transparent),
-                radial-gradient(1px 1px at 35% 65%, #fff, transparent),
-                radial-gradient(1px 1px at 55% 15%, #fff, transparent),
-                radial-gradient(1px 1px at 70% 80%, #fff, transparent),
-                radial-gradient(1px 1px at 85% 40%, #fff, transparent),
-                radial-gradient(1px 1px at 25% 90%, #fff, transparent),
-                radial-gradient(1px 1px at 95% 10%, #fff, transparent),
-                radial-gradient(1px 1px at 45% 45%, #fff, transparent);
-            background-size: 200px 200px;
-            animation: star-twinkle-1 4s ease-in-out infinite;
+                radial-gradient(1.2px 1.2px at 10% 20%, #ffffff, transparent),
+                radial-gradient(1.5px 1.5px at 35% 65%, #ffffff, transparent),
+                radial-gradient(1.2px 1.2px at 55% 15%, rgba(255,255,255,0.9), transparent),
+                radial-gradient(1.8px 1.8px at 70% 80%, #ffffff, transparent),
+                radial-gradient(1.2px 1.2px at 85% 40%, rgba(255,255,255,0.95), transparent),
+                radial-gradient(1.5px 1.5px at 25% 90%, #ffffff, transparent),
+                radial-gradient(1.2px 1.2px at 95% 10%, #ffffff, transparent),
+                radial-gradient(1.5px 1.5px at 45% 45%, rgba(255,255,255,0.9), transparent);
+            background-size: 240px 240px;
+            animation: star-twinkle-1 3.5s ease-in-out infinite, star-drift-1 90s linear infinite;
+            will-change: transform;
         }
         .bg-stars-2 {
             background-image:
-                radial-gradient(1.5px 1.5px at 15% 30%, rgba(255,255,255,0.9), transparent),
-                radial-gradient(1.5px 1.5px at 60% 70%, rgba(255,255,255,0.8), transparent),
-                radial-gradient(1.5px 1.5px at 80% 20%, rgba(255,255,255,0.85), transparent),
-                radial-gradient(1.5px 1.5px at 35% 85%, rgba(255,255,255,0.7), transparent),
-                radial-gradient(1.5px 1.5px at 90% 55%, rgba(255,255,255,0.9), transparent);
-            background-size: 320px 320px;
-            animation: star-twinkle-2 6s ease-in-out infinite, star-drift 100s linear infinite;
+                radial-gradient(2px 2px at 15% 30%, #ffffff, transparent),
+                radial-gradient(1.8px 1.8px at 60% 70%, rgba(255,255,255,0.95), transparent),
+                radial-gradient(2.2px 2.2px at 80% 20%, #ffffff, transparent),
+                radial-gradient(1.8px 1.8px at 35% 85%, rgba(255,255,255,0.9), transparent),
+                radial-gradient(2px 2px at 90% 55%, #ffffff, transparent);
+            background-size: 340px 340px;
+            animation: star-twinkle-2 5s ease-in-out infinite, star-drift-2 70s linear infinite;
             will-change: transform;
         }
         @keyframes star-twinkle-1 {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.9; }
+            0%, 100% { opacity: 0.55; }
+            50% { opacity: 1; }
         }
         @keyframes star-twinkle-2 {
-            0%, 100% { opacity: 0.2; }
-            50% { opacity: 0.7; }
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
         }
-        @keyframes star-drift {
+        @keyframes star-drift-1 {
             from { transform: translate3d(0, 0, 0); }
-            to { transform: translate3d(-320px, -320px, 0); }
+            to { transform: translate3d(-240px, -240px, 0); }
+        }
+        @keyframes star-drift-2 {
+            from { transform: translate3d(0, 0, 0); }
+            to { transform: translate3d(-340px, -340px, 0); }
         }
 
         /* Occasional Shooting Star (long, staggered loop so it stays rare) */
@@ -197,8 +202,54 @@
             background: #333333;
             border-radius: 4px;
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #ffffff;
+        /* Elegant Text Shimmer Animation for Slogan & Preloader Sweep */
+        .shimmer-letter {
+            display: inline-block;
+            transition: color 0.35s ease, text-shadow 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+            color: #8a8a8a;
+            white-space: pre;
+        }
+        .shimmer-letter.glow-peak {
+            color: #ffffff !important;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.95), 0 0 18px rgba(255, 255, 255, 0.6);
+            opacity: 1 !important;
+            transform: translateY(-1px);
+        }
+        .shimmer-letter.glow-mid {
+            color: #e5e5e5 !important;
+            text-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
+            opacity: 0.95 !important;
+        }
+        .shimmer-letter.glow-subtle {
+            color: #b0b0b0 !important;
+            text-shadow: 0 0 3px rgba(255, 255, 255, 0.25);
+            opacity: 0.85 !important;
+        }
+
+        /* Preloader Fast Crisp Shimmer Sweep */
+        .preloader-char {
+            display: inline-block;
+            color: #8e8e8e;
+            opacity: 0.85;
+            white-space: pre;
+            transition: color 0.15s ease, text-shadow 0.15s ease, opacity 0.15s ease, transform 0.15s ease;
+        }
+        .preloader-char.beam-peak {
+            color: #ffffff !important;
+            text-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 35px rgba(255, 255, 255, 0.95), 0 0 50px rgba(255, 255, 255, 0.7);
+            opacity: 1 !important;
+            transform: scale(1.15) translateY(-1px);
+        }
+        .preloader-char.beam-mid {
+            color: #ffffff !important;
+            text-shadow: 0 0 8px #ffffff, 0 0 18px rgba(255, 255, 255, 0.85);
+            opacity: 1 !important;
+            transform: scale(1.05);
+        }
+        .preloader-char.beam-subtle {
+            color: #d1d5db !important;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.4);
+            opacity: 0.9 !important;
         }
 
         /* Nav Link Bullet Indicator */
@@ -320,11 +371,14 @@
         }
         .scramble-text {
             font-family: 'Outfit', sans-serif;
-            font-size: 1.25rem;
-            color: #ffffff;
-            letter-spacing: 0.3rem;
+            font-size: 0.85rem;
+            color: #8e8e8e;
+            opacity: 0.85;
+            letter-spacing: 0.25rem;
             font-weight: 200;
             text-transform: uppercase;
+            text-align: center;
+            padding: 0 1rem;
         }
 
         /* Custom Cursor Styles */
@@ -406,8 +460,8 @@
         <!-- Left: Fixed Sidebar Navigation -->
         <header class="md:w-1/4 md:fixed md:top-24 flex flex-col justify-between mb-16 md:mb-0 h-[auto] md:h-[calc(100vh-12rem)]">
             <div>
-                <h1 class="text-3xl lg:text-4xl font-light tracking-tight text-white mb-2">Ditya Ataby</h1>
-                <p class="text-y2k-dim text-[10px] tracking-[0.25em] uppercase font-light">Software Developer</p>
+                <h1 class="text-3xl lg:text-4xl font-light tracking-tight text-white mb-2">Ditya Ataby.</h1>
+                <p id="slogan-text" class="text-y2k-dim text-[10px] tracking-[0.25em] uppercase font-light cursor-default">Software Engineer & Systems Researcher</p>
             </div>
 
             <nav class="mt-12 md:mt-24">
@@ -431,7 +485,7 @@
             
             <!-- SECTION: HOME -->
             <section id="home" class="section active fade-in">
-                <div class="wireframe-box p-8 lg:p-14 relative overflow-hidden rounded-sm">
+                <div class="wireframe-box p-8 lg:p-14 relative overflow-hidden rounded-sm !bg-transparent backdrop-blur-none">
                     <!-- Accent corner -->
                     <div class="absolute top-0 right-0 w-6 h-6 border-t border-r border-y2k-neon/30"></div>
                     <div class="absolute bottom-0 left-0 w-6 h-6 border-b border-l border-y2k-neon/30"></div>
@@ -442,12 +496,12 @@
                     </div>
 
                     <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extralight text-white mb-8 leading-[1.15] tracking-tight">
-                        Engineering scalable <br>
-                        <span class="text-y2k-dim italic font-light">mobile & web solutions</span>
+                        Architecting modern <br>
+                        <span class="text-y2k-dim italic font-light">digital platforms & interfaces</span>
                     </h2>
 
                     <p class="text-y2k-dim max-w-xl text-sm sm:text-base leading-relaxed font-extralight mt-8">
-                        Based in Jakarta, Indonesia. I view software engineering as a craft to transform complex ideas into reliable digital systems — striving for clarity, efficiency, and robust architecture in every line of code.
+                        Based in Bogor, Indonesia. I perceive software engineering as the art of turning abstract concepts into high performance, resilient digital ecosystems. Driven by a mindset of continuous architectural refinement, I bridge creative problem solving with scalable engineering, actively researching and building modern systems that elevate performance and user experience.
                     </p>
 
                     <div class="flex flex-wrap items-center gap-8 mt-12">
@@ -459,27 +513,10 @@
                         </button>
                     </div>
                 </div>
-            </section>
 
-            <!-- SECTION: PROFILE -->
-            <section id="profile" class="section">
-                <div class="space-y-20">
+                <!-- SUB-SECTION: PROFILE (Integrated seamlessly inside Home/Overview) -->
+                <div id="profile" class="space-y-20 mt-20 pt-10 border-t border-white/5 scroll-mt-24">
                     
-                    <!-- Bio / About Me -->
-                    <div>
-                        <h3 class="text-[10px] text-y2k-neon tracking-[0.25em] uppercase mb-8 flex items-center gap-4 font-light">
-                            <span class="w-8 h-[1px] bg-y2k-neon/40"></span> About
-                        </h3>
-                        <div class="wireframe-box p-8 sm:p-10 rounded-sm">
-                            <p class="text-y2k-silver text-base sm:text-lg lg:text-xl font-extralight leading-relaxed tracking-wide max-w-2xl">
-                                Based in Jakarta, Indonesia.
-                            </p>
-                            <p class="text-y2k-dim text-sm sm:text-base font-extralight leading-relaxed mt-4 max-w-2xl">
-                                I believe every meaningful concept can be translated into scalable, highly reliable digital architectures. Driven by a passion for clean code and performance, I continuously explore new technologies through rigorous experimentation and practical engineering.
-                            </p>
-                        </div>
-                    </div>
-
                     <!-- Experience -->
                     <div>
                         <h3 class="text-[10px] text-y2k-neon tracking-[0.25em] uppercase mb-10 flex items-center gap-4 font-light">
@@ -490,7 +527,7 @@
                             <!-- TRAVEWELL -->
                             <div class="relative group">
                                 <div class="absolute -left-[29px] sm:-left-[37px] top-1.5 w-1.5 h-1.5 rounded-full bg-y2k-neon shadow-[0_0_10px_rgba(255,255,255,0.8)]"></div>
-                                <p class="text-[9px] text-y2k-dim tracking-[0.2em] mb-3 uppercase">Jul 2026 — Present</p>
+                                <p class="text-[9px] text-y2k-dim tracking-[0.2em] mb-3 uppercase">Jul 2026 — Sep 2026</p>
                                 <h4 class="text-y2k-silver text-xl font-light tracking-wide">Software Engineer Intern <br><span class="text-y2k-dim font-extralight text-lg">@ TRAVEWELL – PT Advanced Radio Telecommunications and Networking, Jakarta</span></h4>
                                 <ul class="text-y2k-dim text-sm mt-4 font-extralight leading-relaxed max-w-lg space-y-2 list-disc pl-4">
                                     <li>Reviewed and tested a technical blueprint for an internal IT ticketing system, surfacing architecture gaps and unresolved edge cases before development kicked off.</li>
@@ -503,7 +540,7 @@
                             <div class="relative group">
                                 <div class="absolute -left-[29px] sm:-left-[37px] top-1.5 w-1.5 h-1.5 rounded-full bg-white/20"></div>
                                 <p class="text-[9px] text-y2k-dim tracking-[0.2em] mb-3 uppercase">Aug 2022 — Jan 2023</p>
-                                <h4 class="text-y2k-silver text-xl font-light tracking-wide">Backend Developer & Tech Writer <br><span class="text-y2k-dim font-extralight text-lg">@ PT Elnusa Petrofin, Jakarta</span></h4>
+                                <h4 class="text-y2k-silver text-xl font-light tracking-wide">Backend Developer & Technical Writer <br><span class="text-y2k-dim font-extralight text-lg">@ PT Elnusa Petrofin, Jakarta</span></h4>
                                 <ul class="text-y2k-dim text-sm mt-4 font-extralight leading-relaxed max-w-lg space-y-2 list-disc pl-4">
                                     <li>Spearheaded implementation of comprehensive unit testing for DIMS component, achieving 100% code coverage on critical modules.</li>
                                     <li>Systematically resolved high-priority software defects, resulting in a 25% reduction in customer support escalations.</li>
@@ -547,17 +584,19 @@
                             <span class="w-8 h-[1px] bg-y2k-neon/40"></span> Education
                         </h3>
                         <div class="flex flex-col border-l border-white/5 pl-6 sm:pl-8 space-y-12">
-                            <div class="relative">
-                                <div class="absolute -left-[29px] sm:-left-[37px] top-1.5 w-1.5 h-1.5 rounded-full bg-white/20"></div>
+                            <!-- Telkom University Jakarta -->
+                            <div class="relative group">
+                                <div class="absolute -left-[29px] sm:-left-[37px] top-1.5 w-1.5 h-1.5 rounded-full bg-white/20 group-hover:bg-y2k-neon group-hover:shadow-[0_0_10px_rgba(255,255,255,0.8)] transition-all"></div>
                                 <p class="text-[9px] text-y2k-dim tracking-[0.2em] mb-3 uppercase">2023 — Present</p>
-                                <h4 class="text-y2k-silver text-xl font-light tracking-wide">Telkom University Jakarta</h4>
-                                <p class="text-y2k-dim text-sm mt-2 font-extralight max-w-lg leading-relaxed">Bachelor of Science in Computer Science.</p>
+                                <h4 class="text-y2k-silver text-xl font-light tracking-wide">Telkom University Jakarta. <br><span class="text-y2k-dim font-extralight text-lg">South Jakarta</span></h4>
+                                <p class="text-y2k-dim text-sm mt-2 font-extralight max-w-lg leading-relaxed">Bachelor of Science in Information Technology | GPA: 3.81 / 4.00</p>
                             </div>
-                            <div class="relative">
-                                <div class="absolute -left-[29px] sm:-left-[37px] top-1.5 w-1.5 h-1.5 rounded-full bg-white/20"></div>
-                                <p class="text-[9px] text-y2k-dim tracking-[0.2em] mb-3 uppercase">2020 — 2023</p>
-                                <h4 class="text-y2k-silver text-xl font-light tracking-wide">IDN Boarding Vocational High School</h4>
-                                <p class="text-y2k-dim text-sm mt-2 font-extralight max-w-lg leading-relaxed">Computer Science.</p>
+                            <!-- Politeknik IDN Bogor -->
+                            <div class="relative group">
+                                <div class="absolute -left-[29px] sm:-left-[37px] top-1.5 w-1.5 h-1.5 rounded-full bg-white/20 group-hover:bg-y2k-neon group-hover:shadow-[0_0_10px_rgba(255,255,255,0.8)] transition-all"></div>
+                                <p class="text-[9px] text-y2k-dim tracking-[0.2em] mb-3 uppercase">2023 — Present</p>
+                                <h4 class="text-y2k-silver text-xl font-light tracking-wide">Politeknik IDN Bogor. <br><span class="text-y2k-dim font-extralight text-lg">Bogor</span></h4>
+                                <p class="text-y2k-dim text-sm mt-2 font-extralight max-w-lg leading-relaxed">Applied Bachelor in Software Engineering | GPA: 3.62 / 4.00</p>
                             </div>
                         </div>
                     </div>
@@ -597,6 +636,30 @@
                 
                 <div class="flex flex-col border-t border-white/10">
                     
+                    <!-- IEEE Publication -->
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between py-8 lg:py-10 border-b border-white/5 group hover:bg-white/[0.01] transition-all duration-500 relative px-2 sm:px-4">
+                        <div class="mb-5 sm:mb-0">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="px-2.5 py-0.5 text-[9px] uppercase tracking-widest bg-white/10 text-white font-light rounded-sm">IEEE Publication</span>
+                                <span class="text-[9px] text-y2k-dim tracking-widest uppercase font-light">December 2025</span>
+                            </div>
+                            <h3 class="text-xl sm:text-2xl text-y2k-silver group-hover:text-white transition-colors duration-300 font-light tracking-wide max-w-2xl leading-snug">
+                                ARPY: Enhancing Novice Python Comprehension by Addressing Learning Difficulties through Design-Focused, Interactive Augmented Reality Visualization
+                            </h3>
+                            <p class="text-xs text-y2k-neon tracking-widest uppercase mt-2 font-extralight">Augmented Reality (AR) • Unity • Vuforia • User-Centered Design (UCD) • Python</p>
+                            <ul class="text-sm text-y2k-dim mt-4 max-w-xl font-extralight leading-relaxed space-y-2 list-none">
+                                <li>— Authored and published an educational AR research paper on IEEE Xplore exploring 3D interactive code visualization to convey abstract Python concepts (data structures & branching logic).</li>
+                                <li>— Designed and engineered the ARPY prototype utilizing Unity and Vuforia SDK for real-time AR marker recognition and dynamic 3D spatial object tracking.</li>
+                                <li>— Applied User-Centered Design (UCD) methodology across 32 diverse participants, achieving a System Usability Scale (SUS) score of 70.25 (Good Usability).</li>
+                            </ul>
+                        </div>
+                        <div class="mt-4 sm:mt-0">
+                            <a href="https://ieeexplore.ieee.org/document/11290904" target="_blank" rel="noopener noreferrer" class="text-[10px] text-y2k-neon glow-link uppercase tracking-[0.2em] flex items-center gap-2 font-light">
+                                IEEE Xplore
+                            </a>
+                        </div>
+                    </div>
+
                     <!-- MuslimHabit Tracker -->
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between py-8 lg:py-10 border-b border-white/5 group hover:bg-white/[0.01] transition-all duration-500 relative px-2 sm:px-4">
                         <div class="mb-5 sm:mb-0">
@@ -708,45 +771,68 @@
         // Navigation Function
         function navigateTo(targetId) {
             if (isAnimating) return;
-            
-            // Validate if already active
-            const currentActiveTrigger = document.querySelector('.nav-link.active');
-            if (currentActiveTrigger && currentActiveTrigger.id === `nav-${targetId}`) {
+
+            // Handle Home vs Profile when in combined view
+            const homeSection = document.getElementById('home');
+            const isHomeActive = homeSection && homeSection.classList.contains('active');
+
+            if (targetId === 'home' && isHomeActive) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                setActiveNav('home');
+                return;
+            }
+
+            if (targetId === 'profile' && isHomeActive) {
+                const profileEl = document.getElementById('profile');
+                if (profileEl) {
+                    profileEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+                setActiveNav('profile');
+                return;
+            }
+
+            // Target is outside current view (e.g. going from Projects/Contact to Home/Profile or vice versa)
+            const actualSectionId = (targetId === 'profile') ? 'home' : targetId;
+            const currentSection = document.querySelector('.section.active');
+            const newSection = document.getElementById(actualSectionId);
+
+            if (currentSection === newSection) {
+                if (targetId === 'profile') {
+                    const profileEl = document.getElementById('profile');
+                    if (profileEl) {
+                        profileEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                } else {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+                setActiveNav(targetId);
                 return;
             }
 
             isAnimating = true;
 
-            // Memperbaiki UX Mobile: Otomatis scroll ke atas saat pindah menu
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-
             // 1. Update Navigation Menu styling
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active');
-            });
-            document.getElementById(`nav-${targetId}`).classList.add('active');
+            setActiveNav(targetId);
 
             // 2. Handle Section Transition
-            const currentSection = document.querySelector('.section.active');
-            const newSection = document.getElementById(targetId);
-
             if (currentSection) {
-                // Trigger Fade Out
                 currentSection.classList.remove('fade-in');
                 
-                // Wait for fade out CSS transition (700ms)
                 setTimeout(() => {
                     currentSection.classList.remove('active');
-                    
-                    // Prepare new section
                     newSection.classList.add('active');
                     
-                    // Nested generic delay to ensure browser registers 'display: block' before opacity change
                     requestAnimationFrame(() => {
                         requestAnimationFrame(() => {
                             newSection.classList.add('fade-in');
-                            
-                            // Unlock navigation after fade in finishes
+                            if (targetId === 'profile') {
+                                const profileEl = document.getElementById('profile');
+                                if (profileEl) {
+                                    profileEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                }
+                            } else {
+                                window.scrollTo({ top: 0, behavior: 'smooth' });
+                            }
                             setTimeout(() => {
                                 isAnimating = false;
                             }, 700);
@@ -754,18 +840,50 @@
                     });
                 }, 700);
             } else {
-                // Fallback (on load, handled physically via HTML classes 'active fade-in')
                 newSection.classList.add('active');
                 setTimeout(() => {
                     newSection.classList.add('fade-in');
+                    if (targetId === 'profile') {
+                        const profileEl = document.getElementById('profile');
+                        if (profileEl) {
+                            profileEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    } else {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
                     isAnimating = false;
                 }, 50);
             }
         }
 
+        function setActiveNav(targetId) {
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            const activeBtn = document.getElementById(`nav-${targetId}`);
+            if (activeBtn) activeBtn.classList.add('active');
+        }
+
+        // Scrollspy for combined Home & Profile view
+        window.addEventListener('scroll', () => {
+            const homeSection = document.getElementById('home');
+            if (homeSection && homeSection.classList.contains('active') && !isAnimating) {
+                const profileEl = document.getElementById('profile');
+                if (profileEl) {
+                    const rect = profileEl.getBoundingClientRect();
+                    // When profile is near/above middle of viewport
+                    if (rect.top <= window.innerHeight * 0.45) {
+                        setActiveNav('profile');
+                    } else {
+                        setActiveNav('home');
+                    }
+                }
+            }
+        }, { passive: true });
+
         // Preloader Logic
         document.addEventListener("DOMContentLoaded", () => {
-            const targetText = "<dithdyt-portfolio/>";
+            const targetText = "<ditya-ataby // software-engineer>";
             const chars = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890!@#$%^&*()_+=-{}[]<>,.?/";
             const textEl = document.getElementById("scramble-text");
             let frame = 0;
@@ -813,13 +931,47 @@
                 if (complete === queue.length) {
                     textEl.style.filter = 'blur(0px)';
                     cancelAnimationFrame(animationReq);
+
+                    // Convert resolved text into individual character spans
+                    textEl.innerHTML = '';
+                    const spans = [];
+                    for (let i = 0; i < targetText.length; i++) {
+                        const span = document.createElement('span');
+                        span.className = 'preloader-char';
+                        span.textContent = targetText[i];
+                        textEl.appendChild(span);
+                        spans.push(span);
+                    }
+
+                    // Brief pause (100ms), then run a single light beam sweep across 3 chars (< 0.7s total)
                     setTimeout(() => {
-                        const preloader = document.getElementById("preloader");
-                        preloader.style.opacity = "0";
-                        setTimeout(() => {
-                            preloader.style.visibility = "hidden";
-                        }, 800);
-                    }, 600);
+                        let beamPos = -2;
+                        const totalChars = spans.length;
+                        const sweepInterval = setInterval(() => {
+                            spans.forEach((span, idx) => {
+                                span.classList.remove('beam-peak', 'beam-mid', 'beam-subtle');
+                                if (idx === beamPos) {
+                                    span.classList.add('beam-peak');
+                                } else if (idx === beamPos - 1 || idx === beamPos + 1) {
+                                    span.classList.add('beam-mid');
+                                } else if (idx === beamPos - 2 || idx === beamPos + 2) {
+                                    span.classList.add('beam-subtle');
+                                }
+                            });
+
+                            beamPos++;
+                            // Once the beam passes the final character '>'
+                            if (beamPos > totalChars + 2) {
+                                clearInterval(sweepInterval);
+                                // Smoothly fade out into the main page
+                                const preloader = document.getElementById("preloader");
+                                preloader.style.opacity = "0";
+                                setTimeout(() => {
+                                    preloader.style.visibility = "hidden";
+                                }, 700);
+                            }
+                        }, 18);
+                    }, 100);
                 } else {
                     animationReq = requestAnimationFrame(update);
                     frame++;
@@ -873,6 +1025,48 @@
                 outline.classList.remove("hover");
             });
         });
+
+        // Slogan Elegant Wave Shimmer Animation
+        const sloganEl = document.getElementById('slogan-text');
+        if (sloganEl) {
+            const rawText = sloganEl.innerText;
+            sloganEl.innerHTML = '';
+            const letterSpans = [];
+
+            for (let i = 0; i < rawText.length; i++) {
+                const span = document.createElement('span');
+                span.className = 'shimmer-letter';
+                span.textContent = rawText[i];
+                sloganEl.appendChild(span);
+                letterSpans.push(span);
+            }
+
+            let currentIndex = -3;
+            const totalChars = letterSpans.length;
+
+            function runShimmerWave() {
+                setInterval(() => {
+                    letterSpans.forEach((span, idx) => {
+                        span.classList.remove('glow-peak', 'glow-mid', 'glow-subtle');
+                        if (idx === currentIndex) {
+                            span.classList.add('glow-peak');
+                        } else if (idx === currentIndex - 1 || idx === currentIndex + 1) {
+                            span.classList.add('glow-mid');
+                        } else if (idx === currentIndex - 2 || idx === currentIndex + 2) {
+                            span.classList.add('glow-subtle');
+                        }
+                    });
+
+                    currentIndex++;
+                    if (currentIndex > totalChars + 12) {
+                        // Reset wave with a gentle pause between cycles
+                        currentIndex = -4;
+                    }
+                }, 70);
+            }
+
+            runShimmerWave();
+        }
     </script>
 </body>
 </html>
